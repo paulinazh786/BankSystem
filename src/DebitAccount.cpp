@@ -14,10 +14,24 @@ DebitAccount::DebitAccount(const std::string& accountNumber,
     }
 }
 
-void DebitAccount::setPercent(double newPercent) {}
+void DebitAccount::setPercent(double newPercent) {
+    if (newPercent < 0 || newPercent > 1.0) {
+        throw std::invalid_argument("Percent must be between 0 and 1.0");
+    }
+    percent = newPercent;
+}
 
-double DebitAccount::calculateMonthlyProfit() const {}
+double DebitAccount::calculateMonthlyProfit() const {
+    if (!getIsActive() || getBalance() <= 0) {
+        return 0.0;
+    }
+    return getBalance() * percent / 12.0;
+}
 
-double DebitAccount::calculateInterest() const {}
+double DebitAccount::calculateInterest() const {
+    return calculateMonthlyProfit();
+}
 
-std::string DebitAccount::getAccountType() const {}
+std::string DebitAccount::getAccountType() const {
+    return "Debit";
+}
