@@ -1,4 +1,41 @@
-#ifndef BANKSYSTEM_EMPLOYEE_H
-#define BANKSYSTEM_EMPLOYEE_H
+#pragma once
 
-#endif //BANKSYSTEM_EMPLOYEE_H
+#include "Person.h"
+#include <string>
+#include <chrono>
+
+class Employee : public Person {
+private:
+    int id;
+    std::string position;
+    double salary;
+    std::chrono::system_clock::time_point hireDate;
+    double bonus;
+
+public:
+    Employee(int id,
+             const std::string& firstName,
+             const std::string& lastName,
+             const std::string& patronymic,
+             const std::chrono::system_clock::time_point& birthDate,
+             const std::string& passportNumber,
+             const std::string& position,
+             double salary,
+             const std::chrono::system_clock::time_point& hireDate,
+             double bonus = 0.0,
+             int creditRating = 500);
+
+    int getId() const { return id; }
+
+    std::string getPosition() const { return position; }
+
+    double getSalary() const { return salary; }
+
+    std::chrono::system_clock::time_point getHireDate() const { return hireDate; }
+
+    int getExperience() const;
+
+    double getBonus() const { return bonus; }
+
+    double getTotalCompensation() const { return salary + bonus; }
+};
