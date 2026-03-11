@@ -124,3 +124,39 @@ bool Account::transfer(std::shared_ptr<Account> to, double amount, const std::st
 
     return true;
 }
+void Account::activate() {
+    isActive = true;
+}
+
+void Account::deactivate() {
+    isActive = false;
+}
+
+void Account::addTransaction(const Transaction& transaction) {
+    transactions.push_back(transaction);
+}
+
+bool Account::validateOperation(double amount) const {
+    return amount > 0 && std::isfinite(amount);
+}
+
+bool Account::applyInterestPayment(double amount, const std::string& description) {
+    if (!isActive) {
+        return false;
+    }
+    if (!validateOperation(amount)) {
+        return false;
+    }
+
+    balance += amount;
+    Transaction transaction(
+        accountNumber + "_interest_" + std::to_string(transactions.size()),
+        Transaction::Type::Interest,
+        amount,
+        std::shared_ptr<Account>(nullptr),
+        shared_from_this(),
+        description
+    );
+    addTransaction(transaction);
+    return true;
+}
