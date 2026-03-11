@@ -70,3 +70,25 @@ public:
                       const std::string& toAccount,
                       double amount,
                       const std::string& description = "");
+    std::vector<Transaction> getTransactionsByDate(
+           const std::chrono::system_clock::time_point& startDate,
+           const std::chrono::system_clock::time_point& endDate) const;
+
+    std::vector<Transaction> getTransactionsByClient(int clientId) const;
+
+    std::vector<Transaction> getTransactionsByAccount(const std::string& accountNumber) const;
+
+    void updateTotalAssets();
+
+    double getTotalClientDeposits() const;
+
+    double getTotalCreditDebt() const;
+
+    std::map<std::string, double> getBalanceSummary() const;
+
+    std::vector<std::shared_ptr<Account>> getActiveAccounts() const;
+
+    std::vector<std::shared_ptr<Account>> getAccountsByType(const std::string& type) const;
+
+    void applyInterestToAllAccounts();
+};
