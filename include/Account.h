@@ -45,3 +45,24 @@ public:
     std::vector<Transaction> getTransactionsByDate(
         const std::chrono::system_clock::time_point& startDate,
         const std::chrono::system_clock::time_point& endDate) const;
+    virtual bool deposit(double amount, const std::string& description = "");
+
+    virtual bool withdraw(double amount, const std::string& description = "");
+
+    virtual bool transfer(std::shared_ptr<Account> to, double amount, const std::string& description = "");
+
+    void activate();
+
+    void deactivate();
+
+    virtual double calculateInterest() const = 0;
+
+    virtual std::string getAccountType() const = 0;
+
+    virtual bool applyInterestPayment(double amount, const std::string& description = "Interest payment");
+
+protected:
+    void addTransaction(const Transaction& transaction);
+
+    bool validateOperation(double amount) const;
+};
