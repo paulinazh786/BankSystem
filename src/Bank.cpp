@@ -263,3 +263,60 @@ double Bank::getTotalCreditDebt() const {
     }
     return total;
 }
+
+
+std::map<std::string, double> Bank::getBalanceSummary() const {
+    std::map<std::string, double> summary;
+    for (const auto& account : accounts) {
+        if (account->getIsActive()) {
+            std::string type = account->getAccountType();
+            summary[type] += account->getBalance();
+        }
+    }
+    return summary;
+}
+
+std::vector<std::shared_ptr<Account>> Bank::getActiveAccounts() const {
+    std::vector<std::shared_ptr<Account>> result;
+    std::copy_if(accounts.begin(), accounts.end(),
+                 std::back_inserter(result),
+                 [](const std::shared_ptr<Account>& a) {
+                     return a->getIsActive();
+                 });
+    return result;
+}
+
+std::vector<std::shared_ptr<Account>> Bank::getAccountsByType(const std::string& type) const {
+    std::vector<std::shared_ptr<Account>> result;
+    std::copy_if(accounts.begin(), accounts.end(),
+                 std::back_inserter(result),
+                 [&type](const std::shared_ptr<Account>& a) {
+                     return a->getAccountType() == type;
+                 });
+    return result;
+}
+
+void Bank::applyInterestToAllAccounts() {
+    for (const auto& account : accounts) {
+        if (account->getIsActive()) {
+            double interest = account->calculateInterest();
+            if (interest > 0) {
+                std::ostringstream oss;
+                oss << "TXN_INTEREST_" << (++transactionIdCounter);
+                Transaction interestTransaction(
+                    oss.str(),
+                    Transaction::Type::Interest,
+                    interest,
+                    nullptr,
+                    account,
+                    "Interest payment"
+                );
+                // Используем applyInterestPayment для обхода ограничений депозитов
+                if (account->applyInterestPayment(interest, "Interest payment")) {
+                    performTransaction(interestTransaction);
+                }
+            }
+        }
+    }
+}
+;
