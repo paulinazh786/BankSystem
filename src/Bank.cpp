@@ -9,7 +9,7 @@ int Bank::transactionIdCounter = 0; //общий счетчик трназакц
 //конструктор банка. задаем имя, активы 0.0, если имя пусто, то выбрасывается ошибка
 Bank::Bank(const std::string& bankName)
     : name(bankName), totalAssets(0.0) {
-    if (bankName.empty()) {
+    if (bankName.length() < MIN_BANK_NAME_LENGTH) {
         throw std::invalid_argument("Bank name cannot be empty");
     }
 }

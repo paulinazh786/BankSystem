@@ -16,6 +16,8 @@
 
 class Bank {
 private:
+    /// constexpr — значение задаётся при компиляции, не хранится отдельно в объекте.
+    static constexpr std::size_t MIN_BANK_NAME_LENGTH = 1;
     std::string name;
     std::vector<std::shared_ptr<Client>> clients; //умный указатель на объект клиента.банк хранит набор объектов клиентов
     std::vector<std::shared_ptr<Employee>> employees; //аналогично
