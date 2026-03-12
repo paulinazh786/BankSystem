@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(BankSimulation VERSION 1.0.0 LANGUAGES CXX)
+project(BankSystem VERSION 1.0.0 LANGUAGES CXX)
 
 # Установка стандарта C++23
 set(CMAKE_CXX_STANDARD 23)
@@ -48,11 +48,11 @@ set(HEADERS
 )
 
 # Основная библиотека
-add_library(BankSimulationLib STATIC ${SOURCES} ${HEADERS})
+add_library(BankSystemLib STATIC ${SOURCES} ${HEADERS})
 
 # Исполняемый файл
-add_executable(BankSimulation src/main.cpp)
-target_link_libraries(BankSimulation BankSimulationLib)
+add_executable(BankSystem src/main.cpp)
+target_link_libraries(BankSystem BankSystemLib)
 
 # Google Test
 include(FetchContent)
@@ -68,7 +68,7 @@ enable_testing()
 add_subdirectory(tests)
 
 # Установка
-install(TARGETS BankSimulation BankSimulationLib
+install(TARGETS BankSystem BankSystemLib
         RUNTIME DESTINATION bin
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib
