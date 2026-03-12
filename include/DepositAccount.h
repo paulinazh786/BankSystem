@@ -64,6 +64,6 @@ private:
 
     std::string getAccountType() const override;
 
-    bool applyInterestPayment(double amount, const std::string& description = "Interest payment")
+    bool applyInterestPayment(double amount, const std::string& description = "Interest payment") override;
 
 };
