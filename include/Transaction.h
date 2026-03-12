@@ -8,7 +8,7 @@ class Account;
 
 class Transaction {
 private:
-    std::strinf id;
+    std::string id;
     std::weak_ptr<Account> from;
     std::weak_ptr<Account> to;
     double amount;
@@ -18,10 +18,10 @@ private:
 public:
     enum class Type {
         Deposit,
-        Withdrawal;
-        Transfer;
-        Interest;
-        Fee;
+        Withdrawal,
+        Transfer,
+        Interest,
+        Fee,
     };
     Type type;
 

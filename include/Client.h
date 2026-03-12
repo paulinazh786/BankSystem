@@ -16,13 +16,14 @@ private:
     std::vector<std::shared_ptr<Account>> accounts;
 public:
     Client (int id, const std::string& firstName, const std::string& lastName, const std::string& patronymic,
-            std::chrono::system_clock::time_point& birthDate, const std::string& passportNumber, std::string phone,
-            std::string email, int creditRating = 500);
+            const std::chrono::system_clock::time_point& birthDate, const std::string& passportNumber, const std::string& phone,
+            const std::string& email, int creditRating = 500);
 
     int getId() const {return id;}
     std::string getPhone() const {return phone;}
     std::string getEmail() const {return email;}
-    const std::vector<std::shared_ptr<Account>>& getAccount() const {return account;}
+    const std::vector<std::shared_ptr<Account>>& getAccounts() const { return accounts; }
+    std::shared_ptr<Account> getAccount(const std::string& accountNumber) const;
     double getTotalBalance() const;
 
     void addAccount(std::shared_ptr<Account> account);

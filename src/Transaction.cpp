@@ -6,27 +6,20 @@
 Transaction::Transaction(const std::string &id, Transaction::Type type, double amount, std::shared_ptr <Account> from,
                          std::shared_ptr <Account> to, const std::string &description) : id(id), type(type), amount(amount),
                          from(from),to(to), date(std::chrono::system_clock::now()), description(description){
-    if (amount <= 0) {throw std::invalid_argument("Transaction amount must be positive")}
-    if (id.empty()) {throw std::invalid_argument("Transaction id cannot be empty")}
+    if (amount <= 0) {throw std::invalid_argument("Transaction amount must be positive");}
+    if (id.empty()) {throw std::invalid_argument("Transaction id cannot be empty");}
 }
-
-
-
-
-
-
-
 
 Transaction::Transaction(const std::string &id, Transaction::Type type, double amount,
                          std::shared_ptr <Account> account, const std::string &description) : id(id), type(type),
                          amount(amount), date(std::chrono::system_clock::now()), description(description) {
-    if (amount <= 0) {throw std::invalid_argument("Transaction amount must be positive")}
-    if (id.empty()) {throw std::invalid_argument("Transaction id cannot be empty")}
-    if (!account) {throw std::invalid_argument("Account cannot be null")}
+    if (amount <= 0) {throw std::invalid_argument("Transaction amount must be positive");}
+    if (id.empty()) {throw std::invalid_argument("Transaction id cannot be empty");}
+    if (!account) {throw std::invalid_argument("Account cannot be null");}
 
     if (type == Type::Deposit) {to = account;}
-    else if (type == Type::Withdrawal) {from  = account}
-    else {throw std::invalid_argument("Single account constructor is only for deposit or withdrawal";)}
+    else if (type == Type::Withdrawal) {from  = account;}
+    else {throw std::invalid_argument("Single account constructor is only for deposit or withdrawal");}
 }
 std::shared_ptr<Account> Transaction::getFromAccount() const {return from.lock();}
 std::shared_ptr<Account> Transaction::getToAccount() const {return to.lock();}

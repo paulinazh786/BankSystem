@@ -1,11 +1,12 @@
 #include "../include/Person.h"
 #include <sstream>
 #include <ctime>
+#include <stdexcept>
 
 Person::Person(const std::string &firstName, const std::string &lastName, const std::string &patronymic,
                const std::chrono::system_clock::time_point &birthDate, const std::string &passportNumber, int creditRating)
                : firstName(firstName), lastName(lastName), patronymic(patronymic), birthDate(birthDate),
-               passportNumber(passportNumber), creditRating(creditRating) {
+               passportNumber(passportNumber), creditRating(0) {
     if (firstName.empty()) {
         throw std::invalid_argument("First name cannot be empty");
     }

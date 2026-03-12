@@ -18,12 +18,12 @@ public:
 
     virtual ~Person() = default;
 
-    std::string getLastName() const {return lastName}
-    std::string getFirstName() const {return firstName}
-    std::string getPatronymic() const {return patronymic}
+    std::string getLastName() const {return lastName;}
+    std::string getFirstName() const {return firstName;}
+    std::string getPatronymic() const {return patronymic;}
     std::string getFullName() const;
 
-    std::chrono::systen_clock::time_point getBirthdate() const {return birthDate}
+    std::chrono::system_clock::time_point getBirthDate() const {return birthDate;}
     int getAge() const;
 
     int getCreditRating() const {return creditRating;}
