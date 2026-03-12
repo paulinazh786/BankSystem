@@ -38,4 +38,17 @@ public:
     double getBonus() const { return bonus; }
 
     double getTotalCompensation() const { return salary + bonus; }
+
+
+    void setPostion(const std::string newPosition);
+
+    void setSalary(double newSalary);
+
+    void setBonus(double newBonus);
+
+    void giveRaise(double percent);
+
+    double calculateYearlyIncome() const;
+
+    std::string getRole() const override;
 };
