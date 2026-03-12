@@ -26,20 +26,84 @@ CreditAccount::CreditAccount(const std::string& accountNumber,
     }
 }
 
-double CreditAccount::getAvailableCredit() const {}
+double CreditAccount::getAvailableCredit() const {
+    if (getBalance() >= 0) {
+        return creditLimit;
+    }
+    double usedCredit = std::abs(getBalance());
+    return std::max(0.0, creditLimit - usedCredit);
+}
 
-double CreditAccount::getDebt() const {}
+double CreditAccount::getDebt() const {
+    return (getBalance() < 0) ? std::abs(getBalance()) : 0.0;
+}
 
-void CreditAccount::setCreditLimit(double newLimit) {}
+void CreditAccount::setCreditLimit(double newLimit) {
+    if (newLimit <= 0) {
+        throw std::invalid_argument("Credit limit must be positive");
+    }
+    creditLimit = newLimit;
+}
 
-void CreditAccount::setPercent(double newPercent) {}
+void CreditAccount::setPercent(double newPercent) {
+    if (newPercent < 0 || newPercent > 1.0) {
+        throw std::invalid_argument("Percent must be between 0 and 1.0");
+    }
+    percent = newPercent;
+}
 
-bool CreditAccount::isInGracePeriod() const {}
+bool CreditAccount::isInGracePeriod() const {
+    if (woPercentPeriod == 0) {
+        return false;
+    }
+    auto now = std::chrono::system_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::hours>(now - lastUsageDate);
+    int days = duration.count() / 24;
+    return days <= woPercentPeriod;
+}
 
-double CreditAccount::calculatePenalty() const {}
+double CreditAccount::calculatePenalty() const {
+    if (getBalance() >= 0 || isInGracePeriod()) {
+        return 0.0;
+    }
+    auto now = std::chrono::system_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::hours>(now - lastUsageDate);
+    int daysOverdue = (duration.count() / 24) - woPercentPeriod;
+    if (daysOverdue <= 0) {
+        return 0.0;
+    }
+    return getDebt() * 0.01 * daysOverdue;
+}
 
-bool CreditAccount::withdraw(double amount, const std::string& description) {}
+bool CreditAccount::withdraw(double amount, const std::string& description) {
+    if (!getIsActive()) {
+        throw std::runtime_error("Cannot withdraw from inactive account");
+    }
+    if (amount <= 0) {
+        return false;
+    }
 
-double CreditAccount::calculateInterest() const {}
+    double newBalance = getBalance() - amount;
+    if (newBalance < -creditLimit) {
+        return false;
+    }
+    if (Account::withdraw(amount, description)){
+        if (newBalance < 0) {
+            lastUsageDate = std::chrono::system_clock::now();
+        }
+        return true;
+    }
+    return false;
+}
 
-std::string CreditAccount::getAccountType() const {}
+double CreditAccount::calculateInterest() const {
+    if (getBalance() >= 0 || isInGracePeriod()) {
+        return 0.0;
+    }
+    double debt = getDebt();
+    return debt * percent / 365.0;
+}
+
+std::string CreditAccount::getAccountType() const {
+    return "Credit";
+}
