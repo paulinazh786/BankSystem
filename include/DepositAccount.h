@@ -42,3 +42,28 @@ private:
 
     bool getIsCapitalization() const { return isCapitalization; }
 
+    void setPercent(double newPercent);
+
+    double calculateInterestForPeriod(int days) const;
+
+    bool canWithdraw() const;
+
+    bool canDeposit() const;
+
+    double getMaturityAmount() const;
+
+    void applyMontlyInterest();
+
+    bool isExpired() const;
+
+    bool deposit(double amount, const std::string& description = "") override;
+
+    bool withdraw(double amount, const std::string& description = "") override;
+
+    double calculateInterest() const override;
+
+    std::string getAccountType() const override;
+
+    bool applyInterestPayment(double amount, const std::string& description = "Interest payment")
+
+};
