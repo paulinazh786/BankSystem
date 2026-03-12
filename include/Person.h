@@ -14,7 +14,7 @@ protected:
     std::string passportNumber;
 public:
     Person(const std::string& firstName, const std::string& lastName, const std::string& patronymic,
-           std::chrono::system_clock::time_point& birthDate, const std::string& passportNumber, int creditRating = 500);
+           const std::chrono::system_clock::time_point& birthDate, const std::string& passportNumber, int creditRating = 500);
 
     virtual ~Person() = default;
 
