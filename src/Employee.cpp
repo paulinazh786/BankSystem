@@ -2,22 +2,22 @@
 #include <stdexcept>
 
 Employee::Employee(int id,
-const std::string& firstName,
-const std::string& lastName,
-const std::string& patronymic,
-const std::chrono::system_clock::time_point& birthDate,
-const std::string& passportNumber,
-const std::string& position,
-double salary,
-const std::chrono::system_clock::time_point& hireDate,
-double bonus,
-int creditRating)
-: Person(firstName, lastName, patronymic, birthDate, passportNumber, creditRating),
-id(id),
-position(position),
-salary(salary),
-hireDate(hireDate),
-bonus(bonus) {
+                   const std::string& firstName,
+                   const std::string& lastName,
+                   const std::string& patronymic,
+                   const std::chrono::system_clock::time_point& birthDate,
+                   const std::string& passportNumber,
+                   const std::string& position,
+                   double salary,
+                   const std::chrono::system_clock::time_point& hireDate,
+                   double bonus,
+                   int creditRating)
+    : Person(firstName, lastName, patronymic, birthDate, passportNumber, creditRating),
+      id(id),
+      position(position),
+      salary(salary),
+      hireDate(hireDate),
+      bonus(bonus) {
     if (id < 0) {
         throw std::invalid_argument("Employee ID must be non-negative");
     }
