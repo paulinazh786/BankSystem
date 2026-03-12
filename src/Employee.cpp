@@ -43,10 +43,31 @@ void Employee::setPosition(const std::string& newPosition) {
     position = newPosition;
 }
 
-void Employee::setSalary(double new Salary) {
+void Employee::setSalary(double newSalary) {
     if (newSalary < 0) {
         throw std::invalid_argument("Salary cannot be negative");
     }
     salary = newSalary;
 }
 
+void Employee::setBonus(double newBonus) {
+    if (newBonus < 0) {
+         throw std::invalid_argument("Bonus cannot be negative");
+    }
+    bonus = newBonus;
+}
+
+void Employee::giveRaise(double percent) {
+    if (percent < 0) {
+        throw std::invalid_argument("Raise percentage cannot be negative");
+    }
+    salary *= (1.0 + percent / 100.0);
+}
+
+double Employee::calculateYearlyIncome() const {
+    return salary * 12.0  + bonus;
+}
+
+std::string Employee::getRole() const {
+    return "Employee";
+}
