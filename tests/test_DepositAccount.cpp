@@ -57,4 +57,4 @@ TEST_F(DepositAccountTest, GetMaturityAmountTest) {
 TEST_F(DepositAccountTest, CalculateInterestTest) {
     double interest = account->calculateInterest();
     EXPECT_GE(interest, 0.0);
-}
+
