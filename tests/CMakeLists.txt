@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.20)
 
 # Тесты
-add_executable(BankSimulationTests
+add_executable(BankSystemTests
         test_Person.cpp
         test_Client.cpp
         test_Employee.cpp
@@ -13,11 +13,11 @@ add_executable(BankSimulationTests
         test_Bank.cpp
 )
 
-target_link_libraries(BankSimulationTests
-        BankSimulationLib
+target_link_libraries(BankSystemTests
+        BankSystemLib
         GTest::gtest
         GTest::gtest_main
 )
 
 include(GoogleTest)
-gtest_discover_tests(BankSimulationTests)
+gtest_discover_tests(BankSystemTests)
