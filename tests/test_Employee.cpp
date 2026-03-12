@@ -14,6 +14,7 @@ protected:
             50000.0, hireDate, 10000.0, 850
         );
     }
+
     std::chrono::system_clock::time_point birthDate;
     std::chrono::system_clock::time_point hireDate;
     std::shared_ptr<Employee> employee;
@@ -22,13 +23,13 @@ protected:
 TEST_F(EmployeeTest, ConstructorTest) {
     EXPECT_EQ(employee->getId(), 1);
     EXPECT_EQ(employee->getPosition(), "Менеджер");
-    EXPECT_DOUBLE_EQ(employee->getSalary(), 50000);
-    EXPECT_DOUBLE_EQ(employee->getBonus(), 10000);
+    EXPECT_DOUBLE_EQ(employee->getSalary(), 50000.0);
+    EXPECT_DOUBLE_EQ(employee->getBonus(), 10000.0);
     EXPECT_EQ(employee->getRole(), "Employee");
 }
 
 TEST_F(EmployeeTest, GetTotalCompensationTest) {
-    EXPECT_DOUBLE_EQ(employee->getTotalCompensation(), 60000);
+    EXPECT_DOUBLE_EQ(employee->getTotalCompensation(), 60000.0);
 }
 
 TEST_F(EmployeeTest, CalculateYearlyIncomeTest) {
@@ -55,7 +56,7 @@ TEST_F(EmployeeTest, SetSalaryAndBonusTest) {
 }
 
 TEST_F(EmployeeTest, SetPositionTest) {
-    employee->setPositiom("Старший менеджер")ж
+    employee->setPosition("Старший менеджер");
     EXPECT_EQ(employee->getPosition(), "Старший менеджер");
 
     EXPECT_THROW(employee->setPosition(""), std::invalid_argument);

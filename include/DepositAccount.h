@@ -7,7 +7,6 @@
 
 class DepositAccount : public Account {
 public:
-
     enum class PaymentSchedule {
         AtEnd,
         Monthly
@@ -20,15 +19,15 @@ private:
     PaymentSchedule paymentSchedule;
     bool isCapitalization;
 
+public:
     DepositAccount(const std::string& accountNumber,
-                      std::shared_ptr<Client> owner,
-                      double percent,
-                      const std::chrono::system_clock::time_point& endDate,
-                      bool isRefillable = false,
-                      PaymentSchedule paymentSchedule = PaymentSchedule::AtEnd,
-                      bool isCapitalization = false,
-                      double initialBalance = 0.0);
-
+                   std::shared_ptr<Client> owner,
+                   double percent,
+                   const std::chrono::system_clock::time_point& endDate,
+                   bool isRefillable = false,
+                   PaymentSchedule paymentSchedule = PaymentSchedule::AtEnd,
+                   bool isCapitalization = false,
+                   double initialBalance = 0.0);
 
     double getPercent() const { return percent; }
 
@@ -52,7 +51,7 @@ private:
 
     double getMaturityAmount() const;
 
-    void applyMontlyInterest();
+    void applyMonthlyInterest();
 
     bool isExpired() const;
 
@@ -65,5 +64,4 @@ private:
     std::string getAccountType() const override;
 
     bool applyInterestPayment(double amount, const std::string& description = "Interest payment") override;
-
 };

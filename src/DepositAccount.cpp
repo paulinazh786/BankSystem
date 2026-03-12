@@ -21,11 +21,11 @@ DepositAccount::DepositAccount(const std::string& accountNumber,
     if (percent < 0 || percent > 1.0) {
         throw std::invalid_argument("Percent must be between 0 and 1.0");
     }
-    if (endDate <= getOpenDate) {
+    if (endDate <= getOpenDate()) {
         throw std::invalid_argument("End date must be after open date");
     }
     if (initialBalance <= 0) {
-        throw std::invalid_argument("Deposit initial account should be positive");
+        throw std::invalid_argument("Deposit initial balance must be positive");
     }
 }
 
@@ -77,10 +77,11 @@ double DepositAccount::getMaturityAmount() const {
     }
 }
 
-void DepositAccount::applyMontlyInterest() {
-    if (!isCapitalization() || !getIsActive() || isExpired()) {
+void DepositAccount::applyMonthlyInterest() {
+    if (!isCapitalization || !getIsActive() || isExpired()) {
         return;
     }
+
     if (paymentSchedule == PaymentSchedule::Monthly) {
         double monthlyInterest = calculateInterestForPeriod(30);
         applyInterestPayment(monthlyInterest, "Monthly interest capitalization");
@@ -92,15 +93,15 @@ bool DepositAccount::isExpired() const {
 }
 
 bool DepositAccount::deposit(double amount, const std::string& description) {
-    if (!canDeposit) {
+    if (!canDeposit()) {
         throw std::runtime_error("Cannot deposit to this deposit account");
     }
     return Account::deposit(amount, description);
 }
 
 bool DepositAccount::withdraw(double amount, const std::string& description) {
-    if (!canWithdraw) {
-        throw std::runtime_error("Cannot withdraw from deposit account");
+    if (!canWithdraw()) {
+        throw std::runtime_error("Cannot withdraw from deposit account before maturity");
     }
     return Account::withdraw(amount, description);
 }
@@ -109,10 +110,12 @@ double DepositAccount::calculateInterest() const {
     if (!getIsActive() || isExpired()) {
         return 0.0;
     }
+
     int daysRemaining = getDaysUntilMaturity();
-    if (int daysRemaining <= 0) {
+    if (daysRemaining <= 0) {
         return 0.0;
     }
+
     return calculateInterestForPeriod(daysRemaining);
 }
 
@@ -121,11 +124,13 @@ std::string DepositAccount::getAccountType() const {
 }
 
 bool DepositAccount::applyInterestPayment(double amount, const std::string& description) {
-    if (!getIsActive || isExpired) {
+    if (!getIsActive() || isExpired()) {
         return false;
     }
     if (amount <= 0) {
         return false;
     }
+
+
     return Account::applyInterestPayment(amount, description);
 }
