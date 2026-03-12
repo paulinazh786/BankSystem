@@ -22,7 +22,7 @@ public:
     int getId() const {return id;}
     std::string getPhone() const {return phone;}
     std::string getEmail() const {return email;}
-    const std::vector<std::shared_ptr<Account>>& getAccounts() const {return account;}
+    const std::vector<std::shared_ptr<Account>>& getAccount() const {return account;}
     double getTotalBalance() const;
 
     void addAccount(std::shared_ptr<Account> account);
