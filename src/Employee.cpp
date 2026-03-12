@@ -52,7 +52,7 @@ void Employee::setSalary(double newSalary) {
 
 void Employee::setBonus(double newBonus) {
     if (newBonus < 0) {
-         throw std::invalid_argument("Bonus cannot be negative");
+        throw std::invalid_argument("Bonus cannot be negative");
     }
     bonus = newBonus;
 }
@@ -65,7 +65,7 @@ void Employee::giveRaise(double percent) {
 }
 
 double Employee::calculateYearlyIncome() const {
-    return salary * 12.0  + bonus;
+    return salary * 12.0 + bonus;
 }
 
 std::string Employee::getRole() const {

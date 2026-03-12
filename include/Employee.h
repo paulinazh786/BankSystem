@@ -39,8 +39,7 @@ public:
 
     double getTotalCompensation() const { return salary + bonus; }
 
-
-    void setPostion(const std::string newPosition);
+    void setPosition(const std::string& newPosition);
 
     void setSalary(double newSalary);
 

@@ -32,14 +32,15 @@ TEST_F(DepositAccountTest, ConstructorTest) {
     EXPECT_FALSE(account->getIsRefillable());
     EXPECT_TRUE(account->getIsCapitalization());
 }
+
 TEST_F(DepositAccountTest, CanWithdrawTest) {
-    EXPECT_FALSE(account->canWithdraw());  // Срок не истек
+    EXPECT_FALSE(account->canWithdraw());
 
     EXPECT_THROW(account->withdraw(1000.0), std::runtime_error);
 }
 
 TEST_F(DepositAccountTest, CanDepositTest) {
-    EXPECT_FALSE(account->canDeposit());  // Непополняемый депозит
+    EXPECT_FALSE(account->canDeposit());
 
     EXPECT_THROW(account->deposit(1000.0), std::runtime_error);
 }
@@ -57,4 +58,4 @@ TEST_F(DepositAccountTest, GetMaturityAmountTest) {
 TEST_F(DepositAccountTest, CalculateInterestTest) {
     double interest = account->calculateInterest();
     EXPECT_GE(interest, 0.0);
-
+}
