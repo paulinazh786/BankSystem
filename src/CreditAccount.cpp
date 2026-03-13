@@ -79,7 +79,7 @@ bool CreditAccount::withdraw(double amount, const std::string& description) {
     if (!getIsActive()) {
         throw std::runtime_error("Cannot withdraw from inactive account");
     }
-    if (amount <= 0) {
+    if (amount <= 0 || !std::isfinite(amount)) {
         return false;
     }
 
@@ -87,13 +87,24 @@ bool CreditAccount::withdraw(double amount, const std::string& description) {
     if (newBalance < -creditLimit) {
         return false;
     }
-    if (Account::withdraw(amount, description)){
-        if (newBalance < 0) {
-            lastUsageDate = std::chrono::system_clock::now();
-        }
-        return true;
+
+    balance = newBalance;
+
+    Transaction transaction(
+        accountNumber + "_" + std::to_string(transactions.size()),
+        Transaction::Type::Withdrawal,
+        amount,
+        shared_from_this(),
+        description
+    );
+    addTransaction(transaction);
+
+
+    if (newBalance < 0) {
+        lastUsageDate = std::chrono::system_clock::now();
     }
-    return false;
+
+    return true;
 }
 
 double CreditAccount::calculateInterest() const {
