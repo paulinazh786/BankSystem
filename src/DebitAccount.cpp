@@ -25,7 +25,7 @@ double DebitAccount::calculateMonthlyProfit() const {
     if (!getIsActive() || getBalance() <= 0) {
         return 0.0;
     }
-    return getBalance() * percent / 12.0;
+    return getBalance() * percent / MonthsInYear;
 }
 
 double DebitAccount::calculateInterest() const {

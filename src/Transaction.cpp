@@ -2,6 +2,7 @@
 #include "../include/Account.h"
 #include <sstream>
 #include <stdexcept>
+#include <variant>
 
 Transaction::Transaction(const std::string &id, Transaction::Type type, double amount, std::shared_ptr <Account> from,
                          std::shared_ptr <Account> to, const std::string &description) : id(id), type(type), amount(amount),
@@ -37,11 +38,47 @@ std::string Transaction::getTypeString() const {
 }
 
 std::string Transaction::getSummary() const {
+    using TransactionDetails = std::variant<
+        std::monostate,
+        std::string,
+        std::pair<std::string, std::string>
+    >;
+
+    TransactionDetails details = std::monostate{};
+
+    auto fromAccount = getFromAccount();
+    auto toAccount = getToAccount();
+
+    if (type == Type::Deposit && toAccount) {
+        details = toAccount->getAccountNumber();
+    } else if (type == Type::Withdrawal && fromAccount) {
+        details = fromAccount->getAccountNumber();
+    } else if (type == Type::Transfer && fromAccount && toAccount) {
+        details = std::make_pair(
+            fromAccount->getAccountNumber(),
+            toAccount->getAccountNumber()
+        );
+    }
+
     std::ostringstream oss;
     oss << getTypeString() << " of " << amount << " on " << id;
+
+    std::visit([&oss](const auto& value) {
+        using T = std::decay_t<decltype(value)>;
+
+        if constexpr (std::is_same_v<T, std::monostate>) {
+            // no additional account info
+        } else if constexpr (std::is_same_v<T, std::string>) {
+            oss << " [account: " << value << "]";
+        } else if constexpr (std::is_same_v<T, std::pair<std::string, std::string>>) {
+            oss << " [from: " << value.first << ", to: " << value.second << "]";
+        }
+    }, details);
+
     if (!description.empty()) {
         oss << " (" << description << ")";
     }
+
     return oss.str();
 }
 

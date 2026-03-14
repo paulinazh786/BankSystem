@@ -5,6 +5,7 @@
 
 class DebitAccount : public Account {
 private:
+    static constexpr int MonthsInYear = 12;
     double percent;
 public:
     DebitAccount(const std::string& accountNumber,
